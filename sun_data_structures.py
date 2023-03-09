@@ -1,6 +1,6 @@
 import csv
 
-def interpret_num_sunspots(num_of_sunspots):
+def interpret_validity_num_sunspots(num_of_sunspots):
     if num_of_sunspots > -1:
         return False
     
@@ -19,8 +19,8 @@ def get_all_sunspot_data():
             day = int(line[3])
             num_sunspots = int(line[5])
 
-            valid_sunspot_data = interpret_num_sunspots(num_sunspots)
-            
+            valid_sunspot_data = interpret_validity_num_sunspots(num_sunspots)
+
             if year >= 2002 and year <= 2018 and valid_sunspot_data:
                 date = f"{year}-{month:02d}-{day:02d}" #EXPLAIN :02D IN REPORT, AND DELETE
 
