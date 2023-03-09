@@ -1,9 +1,5 @@
 import csv
 
-"""
-ASK ABOUT DATA NOT AVAIABLE FOR TIME SERIES
-"""
-
 def get_all_sunspot_data():
     all_sunspots = []
 
@@ -18,7 +14,8 @@ def get_all_sunspot_data():
             num_sunspots = int(line[5])
 
             if year >= 2002 and year <= 2018 and num_sunspots > -1: # -1 means that day is missing a value, omit from data
-                date = f"{year}-{month:02d}-{day:02d}" #e.g 2023-01-01
+                date = f"{year}-{month:02d}-{day:02d}" # e.g 2023-01-01
+                                                       # 0.2d turns 1 digit into 2 (e.g 1 -> 01)
 
                 all_sunspots.append((date, num_sunspots))
 
@@ -56,7 +53,7 @@ def time_series_analysis(sun_spot_list, flare_dict):
         date = day[0]
         num_sunspots = day[1]
 
-        if date in flare_dict: # only add if data is available
+        if date in flare_dict: # do only add if data is available
             flare_day = flare_dict[date]
             peak_flare_energy = 0
             for flares in flare_day:
@@ -78,7 +75,8 @@ def correlation_sunspots_flare(sunspot_list, flare_dict):
 
         if date in flare_dict: # only correlate if data is available
             flares = flare_dict[date]
-            num_flares = 0
+            
+            num_flares = 0 # count the total number of flares in that day
             for flare in flares:
                 num_flares += flare[2]
 
@@ -88,10 +86,15 @@ def correlation_sunspots_flare(sunspot_list, flare_dict):
 
 
 def main():
+    # all_flares = { date: [((low_energy_value, high_energy_value), Duration, number_of_flares), …], … }
+    # all_sunspots_daily = [(date, num_of_sunspots), … ]
     all_flares = get_all_flare_data()
     all_sunspots = get_all_sunspot_data()
 
+    # time_series_sunspots_flare_energy_dict = { date: (num_of_sunspots, peak_flare_energy), … }
     time_series_sunspots_flare_energy_dict = time_series_analysis(all_sunspots, all_flares)
+
+    # flares_sunspots_daily = { date: (num_of_sunspots, num_of_flares), … }
     correlation_sunspots_flare_dict = correlation_sunspots_flare(all_sunspots, all_flares)
 
 main()
