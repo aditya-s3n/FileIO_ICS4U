@@ -1,5 +1,11 @@
 import csv
 
+def interpret_num_sunspots(num_of_sunspots):
+    if num_of_sunspots > -1:
+        return False
+    
+    return True
+
 def get_all_sunspot_data():
     all_sunspots = []
 
@@ -13,9 +19,10 @@ def get_all_sunspot_data():
             day = int(line[3])
             num_sunspots = int(line[5])
 
-            if year >= 2002 and year <= 2018 and num_sunspots > -1: # -1 means that day is missing a value, omit from data
-                date = f"{year}-{month:02d}-{day:02d}" # e.g 2023-01-01
-                                                       # 0.2d turns 1 digit into 2 (e.g 1 -> 01)
+            valid_sunspot_data = interpret_num_sunspots(num_sunspots)
+            
+            if year >= 2002 and year <= 2018 and valid_sunspot_data:
+                date = f"{year}-{month:02d}-{day:02d}" #EXPLAIN :02D IN REPORT, AND DELETE
 
                 all_sunspots.append((date, num_sunspots))
 
@@ -33,6 +40,7 @@ def get_all_flare_data():
             date = line[1]
             duration = int(line[5])
             number_of_flares = float(line[7]) # some values are in scientific notation (e.g 2e+05) - float required
+                                              # ADD TO REPORT, AND DELETE
 
             energy_range = line[8].split("-")
             low_energy = int(energy_range[0])
@@ -53,7 +61,7 @@ def time_series_analysis(sun_spot_list, flare_dict):
         date = day[0]
         num_sunspots = day[1]
 
-        if date in flare_dict: # do only add if data is available
+        if date in flare_dict:
             flare_day = flare_dict[date]
             peak_flare_energy = 0
             for flares in flare_day:
@@ -73,10 +81,10 @@ def correlation_sunspots_flare(sunspot_list, flare_dict):
         date = day[0]
         num_sunspots = day[1]
 
-        if date in flare_dict: # only correlate if data is available
+        if date in flare_dict:
             flares = flare_dict[date]
             
-            num_flares = 0 # count the total number of flares in that day
+            num_flares = 0
             for flare in flares:
                 num_flares += flare[2]
 
