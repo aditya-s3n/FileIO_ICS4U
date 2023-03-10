@@ -100,9 +100,9 @@ def main():
     all_sunspots = get_all_sunspot_data()
 
     # time_series_sunspots_flare_energy_dict = { date: (num_of_sunspots, peak_flare_energy), … }
-    time_series_sunspots_flare_energy_dict = time_series_analysis(all_sunspots, all_flares)
+    time_series_dict = time_series_analysis(all_sunspots, all_flares)
 
     # flares_sunspots_daily = { date: (num_of_sunspots, num_of_flares), … }
-    correlation_sunspots_flare_dict = correlation_sunspots_flare(all_sunspots, all_flares)
+    correlation_dict = correlation_sunspots_flare(all_sunspots, all_flares)
 
 main()
